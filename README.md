@@ -1,41 +1,58 @@
-TIMO - Player Microservice
-========================
+# TIMO - Player Microservice
 
-Plays Something to the speakers.  
-Reacts on sockets from the IO-Microservice with title "qr" by asking the data-service for information.  
+Plays Something to the speakers.
+
+Reacts on sockets from the IO-Microservice with title "qr" by asking the data-service for information.
+
 Then plays the file, using various Libs.
 
-# Libs
+## Libs
+
 Every Lib has a method "play", that finally sends the file to the speakers
 
-## lib-local
+### lib-local
+
 Plays local files using the mplayer
 
-## lib-youtube
+### lib-youtube
+
 Streams YouTube Audio
 
-## lib-soundcloud
+### lib-soundcloud
+
 Streams Soundcloud Audio
 
-## lib-tts
+### lib-tts
+
 Uses a TTS-Service to play written text
 
-## lib-spotify
+### lib-spotify
+
 Streams Spotify File
 
-## lib-podcast
+### lib-podcast
+
 Plays latest file of given podcast
 
-## lib-stream
+### lib-stream
+
 Plays mp3 behind url
 
-## lib-rss2tts
+### lib-rss2tts
+
 Reads out latest rss files (info in link)
 
-## lib-midi
+### lib-midi
+
 Plays a sequence of notes
 
-# TODO
+---
+
+## TODO
+
 * puml for libs
+* sequence puml
+* testing
+* jsdoc
 * code app
 * libs
