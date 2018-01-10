@@ -9,7 +9,9 @@
     "socket.io-client":"*",
     "request-json":"*",
     "player":"*",
-    "say":"*"
+    "say":"*",
+    "express":"*",
+    "body-parser":"*"
   },
   "devDependencies": {
     

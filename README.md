@@ -56,3 +56,4 @@ Plays a sequence of notes
 * jsdoc
 * code app
 * libs
+  * make objects

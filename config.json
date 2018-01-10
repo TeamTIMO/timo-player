@@ -1,4 +1,5 @@
 {
   "ioservice":"",
-  "dataservice":""
+  "dataservice":"",
+  "port":50215
 }
