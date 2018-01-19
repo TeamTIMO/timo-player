@@ -57,3 +57,4 @@ Plays a sequence of notes
 * code app
 * libs
   * make objects
+* convert to typescript

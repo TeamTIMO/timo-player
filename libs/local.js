@@ -1,15 +1,20 @@
-var Player = require('player')
-var player
-exports.play = function (file) {
-  player = new Player(file)
-  player.play()
-}
-exports.pause = function () {
-  player.pause()
-}
-exports.playpause = function () {
-  // if playing, pause, else play
-}
-exports.stop = function () {
-  player.pause()
+
+module.exports = class Local {
+  constructor () {
+    this.player = null
+    this.Player = require('player')
+  }
+  play (file) {
+    this.player = new this.Player(file)
+    this.player.play()
+  }
+  pause () {
+    this.player.pause()
+  }
+  playpause () {
+    this.player.pause()
+  }
+  stop () {
+    this.player.pause()
+  }
 }

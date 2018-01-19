@@ -1,13 +1,17 @@
-const say = require('say')
-exports.play = function (file) {
-  say.speak(file)
-}
-exports.pause = function () {
-  say.pause()
-}
-exports.playpause = function () {
-  // if playing, pause, else play
-}
-exports.stop = function () {
-  say.stop()
+module.exports = class TTS {
+  constructor () {
+    this.say = require('say')
+  }
+  play (file) {
+    this.say.speak(file)
+  }
+  pause () {
+    this.say.pause()
+  }
+  playpause () {
+    this.say.pause()
+  }
+  stop () {
+    this.say.stop()
+  }
 }
