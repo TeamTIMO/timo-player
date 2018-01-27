@@ -18,6 +18,10 @@
  var app = express()
  var server = require('http').createServer(app)
 
+// Players
+var Local =  require('./libs/local.js')
+var TTS = require('./libs/tts.js')
+
 // Accept JSON Body
  app.use(bodyParser.json())
  app.use(bodyParser.urlencoded({
@@ -34,8 +38,8 @@
  var dataClient = request.createClient(config.dataservice)
 
  var players = {
-   local: require('./libs/local.js'),
-   tts: require('./libs/tts.js')
+   local: new Local(),
+   tts: new TTS()
  }
 
  var nowPlaying = {}
