@@ -63,7 +63,7 @@
          console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
          switch (body.source) {
            case 'local':
-             OMXPlayer.start(body.link, function (error) {
+            omxplayer.start(body.link, function (error) {
                console.log('[TIMO-PLAYER]: OMXPlayer: ' + error)
              }) // open file
              break
