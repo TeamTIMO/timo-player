@@ -53,13 +53,13 @@
      console.log('[TIMO-PLAYER] Got ID from IO-Service: ' + data.body)
      dataClient.get(data.body, function (err, res, body) {
        if (err) {
-         console.error('[TIMO-PLAYER] ' + err)
-         ioSock.emit('io', {title: 'setled', body: '#FF0000'})
+         console.error('[TIMO-PLAYER] ' + JSON.stringify(err))
+         // ioSock.emit('io', {title: 'setled', body: '#FF0000'})
        } else {
          nowPlaying = body
-         console.log('[TIMO-PLAYER] ' + nowPlaying)
+         console.log('[TIMO-PLAYER] ' + JSON.stringify(nowPlaying))
          players[body.source].play(body.link)
-         ioSock.emit('io', {title: 'setled', body: '#00FF00'})
+         // ioSock.emit('io', {title: 'setled', body: '#00FF00'})
        }
      })
    }
@@ -71,7 +71,7 @@
  })
  app.put('/playpause', function (req, res) {
    players[nowPlaying].pause()
-   ioSock.emit('io', {title: 'setled', body: '#FF6600'})
+   // ioSock.emit('io', {title: 'setled', body: '#FF6600'})
    res.status(200).end()
  })
  app.put('/stop', function (req, res) {
@@ -80,16 +80,16 @@
    res.status(200).end()
  })
  app.put('/volup', function (req, res) {
-   ioSock.emit('io', {title: 'volup', body: ''})
+   // ioSock.emit('io', {title: 'volup', body: ''})
  })
  app.put('/voldown', function (req, res) {
-   ioSock.emit('io', {title: 'voldown', body: ''})
+   // ioSock.emit('io', {title: 'voldown', body: ''})
  })
  app.post('/playthis', function (req, res) {
    if (req.body !== null || typeof req.body !== 'undefined') {
      nowPlaying = req.body
      players[req.body.source].play(req.body.link)
-     ioSock.emit('io', {title: 'setled', body: '#00FF00'})
+     // ioSock.emit('io', {title: 'setled', body: '#00FF00'})
    } else {
      res.status(400).end()
    }
