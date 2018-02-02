@@ -2,10 +2,10 @@
 module.exports = class Local {
   constructor () {
     this.player = null
-    this.Player = require('player')
+    this.Omx = require('node-omxplayer')
   }
   play (file) {
-    this.player = new this.Player(file)
+    this.player = this.Omx(file)
     this.player.play()
   }
   pause () {
@@ -15,6 +15,6 @@ module.exports = class Local {
     this.player.pause()
   }
   stop () {
-    this.player.pause()
+    this.player.quit()
   }
 }

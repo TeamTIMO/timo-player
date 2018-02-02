@@ -19,8 +19,8 @@
  var server = require('http').createServer(app)
 
 // Players
-var Local =  require('./libs/local.js')
-var TTS = require('./libs/tts.js')
+ var Local = require('./libs/local.js')
+ var TTS = require('./libs/tts.js')
 
 // Accept JSON Body
  app.use(bodyParser.json())

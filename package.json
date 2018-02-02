@@ -8,7 +8,7 @@
   "dependencies": {
     "socket.io-client":"*",
     "request-json":"*",
-    "player":"*",
+    "node-omxplayer":"*",
     "say":"*",
     "express":"*",
     "body-parser":"*"
