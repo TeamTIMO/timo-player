@@ -70,7 +70,7 @@
          switch (body.source) {
            case 'local':
              local.newSource(body.link)
-             console.log('[TIMO-PLAYER]: OMXPlayer: ' + this.player.info())
+             console.log('[TIMO-PLAYER]: OMXPlayer: ' + local.info())
              break
            case 'tts':
              say.speak(body.link, 'kal_diphone', function (err) {
