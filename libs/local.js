@@ -1,8 +1,8 @@
 
 module.exports = class Local {
-  constructor () {
+  constructor (omx) {
     this.player = null
-    this.Omx = require('node-omxplayer')
+    this.Omx = omx
   }
   play (file) {
     this.player = this.Omx(file)

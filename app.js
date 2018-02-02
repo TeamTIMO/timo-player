@@ -20,6 +20,7 @@
 
 // Players
  var Local = require('./libs/local.js')
+ var OMXPlayer = require('node-omxplayer')
  var TTS = require('./libs/tts.js')
 
 // Accept JSON Body
@@ -38,7 +39,7 @@
  var dataClient = request.createClient(config.dataservice)
 
  var players = {
-   local: new Local(),
+   local: new Local(OMXPlayer),
    tts: new TTS()
  }
 
