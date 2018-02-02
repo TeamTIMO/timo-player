@@ -10,7 +10,6 @@ module.exports = class TTS {
       } else {
         console.log('[TIMO-PLAYER]: TTS: Text has been spoken.')
       }
-     
     })
   }
   pause () {
