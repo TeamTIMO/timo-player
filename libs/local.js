@@ -6,6 +6,12 @@ module.exports = class Local {
   }
   play (file) {
     this.player = this.Omx(file)
+    this.player.on('close', function () {
+      console.log('[TIMO-PLAYER]: Local: player closed')
+    })
+    this.player.on('error', function (error) {
+      console.log('[TIMO-PLAYER]: Local: error: ' + error)
+    })
     console.log('[TIMO-PLAYER]: Local: ' + file)
     this.player.play()
   }
