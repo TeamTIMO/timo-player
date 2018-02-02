@@ -19,10 +19,9 @@
  var server = require('http').createServer(app)
 
 // Players
- var OMXPlayer = require('omx-interface')
- var options = {
-   audioOutput: 'local'
- }
+ var OMXPlayer = require('omxplayer')
+ var configuration = {}
+ var omxplayer = new OMXPlayer(configuration)
  const say = require('say')
 
 // Accept JSON Body
@@ -64,11 +63,9 @@
          console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
          switch (body.source) {
            case 'local':
-             OMXPlayer.open(body.link, options) // open file
-             OMXPlayer.onProgress(function (track) { // subscribe for track updates (every second while not paused for now)
-               console.log('[TIMO-PLAYER]: OMXPlayer: ' + track.position)
-               console.log('[TIMO-PLAYER]: OMXPlayer: ' + track.duration)
-             })
+             OMXPlayer.start(body.link, function (error) {
+               console.log('[TIMO-PLAYER]: OMXPlayer: ' + error)
+             }) // open file
              break
            case 'tts':
              say.speak(body.link, 'kal_diphone', function (err) {
