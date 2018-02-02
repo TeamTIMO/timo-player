@@ -3,6 +3,7 @@ module.exports = class TTS {
     this.say = require('say')
   }
   play (file) {
+    console.log('[TIMO-PLAYER]: TTS: ' + file)
     this.say.speak(file)
   }
   pause () {

@@ -33,7 +33,7 @@
    config.port = process.argv[3]
  }
  server.listen(config.port)
- console.log('TIMO-Playerservice running on ' + config.port)
+ console.log('[TIMO-PLAYER] TIMO-Playerservice running on ' + config.port)
 
  var dataClient = request.createClient(config.dataservice)
 
@@ -49,10 +49,11 @@
    if (data.title === 'id') {
      dataClient.get(data.body, function (err, res, body) {
        if (err) {
-         console.error(err)
+         console.error('[TIMO-PLAYER] ' + err)
          ioSock.emit('io', {title: 'setled', body: '#FF0000'})
        } else {
          nowPlaying = body
+         console.log('[TIMO-PLAYER] ' + nowPlaying)
          players[body.source].play(body.link)
          ioSock.emit('io', {title: 'setled', body: '#00FF00'})
        }
