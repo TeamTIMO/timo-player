@@ -4,7 +4,7 @@ module.exports = class TTS {
   }
   play (file) {
     console.log('[TIMO-PLAYER]: TTS: ' + file)
-    this.say.speak(file)
+    this.say.speak(file, 'kal_diphone')
   }
   pause () {
     this.say.pause()
