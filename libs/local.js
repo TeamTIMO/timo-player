@@ -15,6 +15,7 @@ module.exports = class Local {
     })
     console.log('[TIMO-PLAYER]: Local: ' + file)
     console.log('[TIMO-PLAYER]: Local: ' + this.player.info())
+    console.log('[TIMO-PLAYER]: Local: Running? ' + this.player.running)
   }
   pause () {
     this.player.pause()
