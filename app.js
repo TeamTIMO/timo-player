@@ -8,8 +8,8 @@
  */
 
  // Require needed modules
- console.log('Starting up TIMO-Player-Service...')
- console.log('Pulling in dependencies...')
+ console.log('[TIMO-PLAYER] Starting up TIMO-Player-Service...')
+ console.log('[TIMO-PLAYER] Pulling in dependencies...')
  var config = require('./config.json')
  var request = require('request-json')
 
@@ -48,6 +48,12 @@
  ioSock.on('connect', function () {
    console.log('[TIMO-PLAYER] Connected to IO-Service')
  })
+ ioSock.on('disconnect', function () {
+  console.log('[TIMO-PLAYER] Disconnected to IO-Service')
+})
+ ioSock.on('error', function (error) {
+  console.log('[TIMO-PLAYER] Error with IO-Service: ' + error)
+})
  ioSock.on('io', function (data) {
    if (data.title === 'id') {
      console.log('[TIMO-PLAYER] Got ID from IO-Service: ' + data.body)
@@ -57,7 +63,7 @@
          // ioSock.emit('io', {title: 'setled', body: '#FF0000'})
        } else {
          nowPlaying = body
-         console.log('[TIMO-PLAYER] ' + JSON.stringify(nowPlaying))
+         console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
          players[body.source].play(body.link)
          // ioSock.emit('io', {title: 'setled', body: '#00FF00'})
        }
