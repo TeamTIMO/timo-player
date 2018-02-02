@@ -3,9 +3,10 @@ module.exports = class Local {
   constructor (omx) {
     this.player = null
     this.Omx = omx
+    this.player = this.Omx()
   }
   play (file) {
-    this.player = this.Omx(file)
+    this.player.newSource(file)
     this.player.on('close', function () {
       console.log('[TIMO-PLAYER]: Local: player closed')
     })
