@@ -19,9 +19,16 @@
  var server = require('http').createServer(app)
 
 // Players
- var Local = require('./libs/local.js')
  var OMXPlayer = require('node-omxplayer')
- var TTS = require('./libs/tts.js')
+ const say = require('say')
+
+ var local = OMXPlayer()
+ local.on('close', function () {
+   console.log('[TIMO-PLAYER]: OMXPlayer: player closed')
+ })
+ local.on('error', function (error) {
+   console.error('[TIMO-PLAYER]: OMXPlayer: error: ' + error)
+ })
 
 // Accept JSON Body
  app.use(bodyParser.json())
@@ -37,11 +44,6 @@
  console.log('[TIMO-PLAYER] TIMO-Playerservice running on ' + config.port)
 
  var dataClient = request.createClient(config.dataservice)
-
- var players = {
-   local: new Local(OMXPlayer),
-   tts: new TTS()
- }
 
  var nowPlaying = {}
 
@@ -65,7 +67,21 @@
        } else {
          nowPlaying = body
          console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
-         players[body.source].play(body.link)
+         switch (body.source) {
+           case 'local':
+             local.newSource(body.link)
+             console.log('[TIMO-PLAYER]: OMXPlayer: ' + this.player.info())
+             break
+           case 'tts':
+             say.speak(body.link, 'kal_diphone', function (err) {
+               if (err) {
+                 return console.error('[TIMO-PLAYER]: TTS: ' + err)
+               } else {
+                 console.log('[TIMO-PLAYER]: TTS: Text has been spoken.')
+               }
+             })
+             break
+         }
          // ioSock.emit('io', {title: 'setled', body: '#00FF00'})
        }
      })
@@ -77,13 +93,13 @@
    res.json(nowPlaying)
  })
  app.put('/playpause', function (req, res) {
-   players[nowPlaying].pause()
+   // players[nowPlaying].pause()
    // ioSock.emit('io', {title: 'setled', body: '#FF6600'})
    res.status(200).end()
  })
  app.put('/stop', function (req, res) {
-   players[nowPlaying].stop()
-   ioSock.emit('io', {title: 'setled', body: '#FF0000'})
+   // players[nowPlaying].stop()
+   // ioSock.emit('io', {title: 'setled', body: '#FF0000'})
    res.status(200).end()
  })
  app.put('/volup', function (req, res) {
@@ -95,7 +111,7 @@
  app.post('/playthis', function (req, res) {
    if (req.body !== null || typeof req.body !== 'undefined') {
      nowPlaying = req.body
-     players[req.body.source].play(req.body.link)
+     // players[req.body.source].play(req.body.link)
      // ioSock.emit('io', {title: 'setled', body: '#00FF00'})
    } else {
      res.status(400).end()
