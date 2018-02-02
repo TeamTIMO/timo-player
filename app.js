@@ -49,11 +49,11 @@
    console.log('[TIMO-PLAYER] Connected to IO-Service')
  })
  ioSock.on('disconnect', function () {
-  console.log('[TIMO-PLAYER] Disconnected to IO-Service')
-})
+   console.log('[TIMO-PLAYER] Disconnected to IO-Service')
+ })
  ioSock.on('error', function (error) {
-  console.log('[TIMO-PLAYER] Error with IO-Service: ' + error)
-})
+   console.log('[TIMO-PLAYER] Error with IO-Service: ' + error)
+ })
  ioSock.on('io', function (data) {
    if (data.title === 'id') {
      console.log('[TIMO-PLAYER] Got ID from IO-Service: ' + data.body)
@@ -114,8 +114,8 @@
  process.on('SIGINT', exitHandler)
   // catches uncaught exceptions
  process.on('uncaughtException', function (err) {
-   console.error(err)
-   exitHandler(null, err)
+   console.error('[TIMO-PLAYER] uE: ' + err)
+   // exitHandler(null, err)
  })
 
   // keep running
