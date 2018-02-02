@@ -45,8 +45,12 @@
  var nowPlaying = {}
 
  var ioSock = require('socket.io-client')(config.ioservice)
+ ioSock.on('connect', function () {
+   console.log('[TIMO-PLAYER] Connected to IO-Service')
+ })
  ioSock.on('io', function (data) {
    if (data.title === 'id') {
+     console.log('[TIMO-PLAYER] Got ID from IO-Service: ' + data.body)
      dataClient.get(data.body, function (err, res, body) {
        if (err) {
          console.error('[TIMO-PLAYER] ' + err)
