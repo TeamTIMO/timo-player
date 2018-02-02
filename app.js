@@ -44,7 +44,7 @@
 
  var nowPlaying = {}
 
- var ioSock = require('socket.io-client')(config.ioservice)
+ var ioSock = require('socket.io-client')(config.ioservice + '?token=TIMO-PLAYER')
  ioSock.on('connect', function () {
    console.log('[TIMO-PLAYER] Connected to IO-Service')
  })
