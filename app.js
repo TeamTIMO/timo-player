@@ -69,7 +69,7 @@
          console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
          switch (body.source) {
            case 'local':
-             local.newSource(body.link)
+             local.newSource(body.link, 'local', false, 50)
              console.log('[TIMO-PLAYER]: OMXPlayer: ' + local.info())
              break
            case 'tts':
