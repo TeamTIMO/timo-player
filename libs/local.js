@@ -4,15 +4,15 @@ module.exports = class Local {
     this.player = null
     this.Omx = omx
     this.player = this.Omx()
-  }
-  play (file) {
-    this.player.newSource(file)
     this.player.on('close', function () {
       console.log('[TIMO-PLAYER]: Local: player closed')
     })
     this.player.on('error', function (error) {
       console.log('[TIMO-PLAYER]: Local: error: ' + error)
     })
+  }
+  play (file) {
+    this.player.newSource(file)
     console.log('[TIMO-PLAYER]: Local: ' + file)
     console.log('[TIMO-PLAYER]: Local: ' + this.player.info())
     console.log('[TIMO-PLAYER]: Local: Running? ' + this.player.running)
