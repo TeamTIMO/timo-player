@@ -12,7 +12,7 @@
  console.log('[TIMO-PLAYER] Pulling in dependencies...')
  var config = require('./config.json')
  var request = require('request-json')
-
+ var fs = require('fs')
  var express = require('express')
  var bodyParser = require('body-parser')
  var app = express()
@@ -22,6 +22,7 @@
  var Local = require('./libs/local.js')
  var OMXPlayer = require('node-omxplayer')
  var TTS = require('./libs/tts.js')
+ var Speaky = require('speaky')
 
 // Accept JSON Body
  app.use(bodyParser.json())
@@ -40,7 +41,7 @@
 
  var players = {
    local: new Local(OMXPlayer),
-   tts: new TTS()
+   tts: new TTS(Speaky, fs, OMXPlayer)
  }
 
  var nowPlaying = {}

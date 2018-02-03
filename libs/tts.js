@@ -1,24 +1,28 @@
 module.exports = class TTS {
-  constructor () {
-    this.say = require('say')
-  }
-  play (file) {
-    console.log('[TIMO-PLAYER]: TTS: ' + file)
-    this.say.speak(file, 'kal_diphone', function (err) {
-      if (err) {
-        return console.error('[TIMO-PLAYER]: TTS: ' + err)
-      } else {
-        console.log('[TIMO-PLAYER]: TTS: Text has been spoken.')
-      }
+  constructor (Speaky, fs, OMXPlayer) {
+    this.speaky = new Speaky('/usr/share/pico/lang/de-DE_ta.bin', '/usr/share/pico/lang/de-DE_gl0_sg.bin')
+    this.fs = fs
+    this.Omx = OMXPlayer
+    this.player = this.Omx()
+    this.player.on('close', function () {
+      console.log('[TIMO-PLAYER]: TTS: player closed')
+    })
+    this.player.on('error', function (error) {
+      console.log('[TIMO-PLAYER]: TTS: error: ' + error)
     })
   }
+  play (file) {
+    this.speaky.speak(file)
+      .pipe(this.fs.createWriteStream('/tmp/out.pcm'))
+    this.player.newSource('/tmp/out.pcm')
+  }
   pause () {
-    this.say.pause()
+    this.player.pause()
   }
   playpause () {
-    this.say.pause()
+    this.player.pause()
   }
   stop () {
-    this.say.stop()
+    this.player.quit()
   }
 }

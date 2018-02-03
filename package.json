@@ -9,7 +9,7 @@
     "socket.io-client":"*",
     "request-json":"*",
     "node-omxplayer":"*",
-    "say":"*",
+    "speaky":"*",
     "express":"*",
     "body-parser":"*"
   },
