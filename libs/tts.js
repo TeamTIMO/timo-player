@@ -1,8 +1,9 @@
 module.exports = class TTS {
-  constructor (Speaky, fs, OMXPlayer) {
+  constructor (Speaky, fs, OMXPlayer, Writer) {
     this.speaky = new Speaky('/usr/share/pico/lang/de-DE_ta.bin', '/usr/share/pico/lang/de-DE_gl0_sg.bin')
     this.fs = fs
     this.Omx = OMXPlayer
+    this.Writer = Writer
     this.player = this.Omx()
     this.player.on('close', function () {
       console.log('[TIMO-PLAYER]: TTS: player closed')
@@ -12,7 +13,7 @@ module.exports = class TTS {
     })
   }
   play (file) {
-    this.player.newSource(this.speaky.speak(file))
+    this.player.newSource(this.speaky.speak(file).pipe(this.Writer))
   }
   pause () {
     this.player.pause()

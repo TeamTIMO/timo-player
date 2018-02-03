@@ -11,7 +11,8 @@
     "node-omxplayer":"*",
     "speaky":"*",
     "express":"*",
-    "body-parser":"*"
+    "body-parser":"*",
+    "wav":"*"
   },
   "devDependencies": {
     

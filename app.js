@@ -23,6 +23,8 @@
  var OMXPlayer = require('node-omxplayer')
  var TTS = require('./libs/tts.js')
  var Speaky = require('speaky')
+ var wav = require('wav')
+ var Writer = new wav.Writer()
 
 // Accept JSON Body
  app.use(bodyParser.json())
@@ -41,7 +43,7 @@
 
  var players = {
    local: new Local(OMXPlayer),
-   tts: new TTS(Speaky, fs, OMXPlayer)
+   tts: new TTS(Speaky, fs, OMXPlayer, Writer)
  }
 
  var nowPlaying = {}
