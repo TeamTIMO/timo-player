@@ -12,7 +12,7 @@
     "speaky":"*",
     "express":"*",
     "body-parser":"*",
-    "wav":"*"
+    "speaker":"*"
   },
   "devDependencies": {
     
