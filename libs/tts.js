@@ -12,9 +12,7 @@ module.exports = class TTS {
     })
   }
   play (file) {
-    this.speaky.speak(file)
-      .pipe(this.fs.createWriteStream('/tmp/out.pcm'))
-    this.player.newSource('/tmp/out.pcm')
+    this.player.newSource(this.speaky.speak(file))
   }
   pause () {
     this.player.pause()
