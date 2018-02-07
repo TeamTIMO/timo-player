@@ -14,13 +14,11 @@ module.exports = class Local {
   play (file) {
     this.player.newSource(file)
     console.log('[TIMO-PLAYER]: Local: ' + file)
-    console.log('[TIMO-PLAYER]: Local: ' + this.player.info())
-    console.log('[TIMO-PLAYER]: Local: Running? ' + this.player.running)
   }
   pause () {
     this.player.pause()
   }
-  playpause () {
+  togglePlay () {
     this.player.pause()
   }
   stop () {

@@ -14,7 +14,7 @@ module.exports = class TTS {
   pause () {
     
   }
-  playpause () {
+  togglePlay () {
     
   }
   stop () {
