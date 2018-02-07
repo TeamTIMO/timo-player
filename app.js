@@ -62,9 +62,10 @@
      if (data.body === nowPlaying.id) {
        players[nowPlaying.source].togglePlay()
      } else {
+       players[nowPlaying.source].stop()
        dataClient.get(data.body, function (err, res, body) {
          if (err) {
-           console.error('[TIMO-PLAYER] ' + JSON.stringify(err))
+           console.error('[TIMO-PLAYER] Error with Data-Service: ' + JSON.stringify(err))
            ioSock.emit('io', {title: 'setled', body: '#FF0000'})
          } else {
            nowPlaying = body
