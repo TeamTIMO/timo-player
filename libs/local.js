@@ -18,9 +18,6 @@ module.exports = class Local {
   pause () {
     this.player.pause()
   }
-  togglePlay () {
-    this.player.pause()
-  }
   stop () {
     this.player.quit()
   }

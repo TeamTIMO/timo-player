@@ -1,0 +1,30 @@
+@startuml
+
+title TIMO :: Aktivitätsdiagramm ID
+
+start
+:Text von Karte kommt;
+:Split to get ID;
+if(ID hat einen Wert) then (ja)
+  if(ID entspricht aktueller ID) then (ja)
+    if(ID startet mit "http") then (ja)
+      if(ID enthält "|") then (ja)
+        :JSON-Datei herunterladen;
+        :Eintrag mit ID hinter "|" suchen;
+        :Daten verwenden;
+      else(nein)
+        :Daten von Remote-Service holen;
+        :Daten verwenden;
+      endif
+    else (nein)
+      :Daten von lokalem Service verwenden;
+    endif
+      :Spiele "link" von "source";
+  else(nein)
+    :Track von Anfang spielen;
+  endif
+else(nein)
+  :Pause;
+endif
+stop
+@enduml
