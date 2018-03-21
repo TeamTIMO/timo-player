@@ -61,19 +61,19 @@ ioSock.on('io', function (data) {
     case 'id':
       console.log('[TIMO-PLAYER] Got ID from IO-Service: ' + data.body)
       if (data.body === '' || data.body === nowPlaying.id) {
-        players[nowPlaying.source].pause()
+        players[nowPlaying.type].pause()
       } else {
-        players[nowPlaying.source].stop()
+        players[nowPlaying.type].stop()
         if (data.body.startsWith('http')) { // Online Database
           request.createClient(data.body).get('', function (err, res, body) {
             if (err) {
               console.error('[TIMO-PLAYER] Error with Remote-Web-Service: ' + JSON.stringify(err))
               ioSock.emit('io', {title: 'setled', body: '#FF0000'})
             } else {
-              players[nowPlaying.source].stop()
+              players[nowPlaying.type].stop()
               nowPlaying = body
               console.log('[TIMO-PLAYER] From Remote-Web-Service: ' + JSON.stringify(nowPlaying))
-              players[body.source].play(body.subtype, body.link)
+              players[body.type].play(body.subtype, body.link)
               ioSock.emit('io', {title: 'setled', body: '#00FF00'})
             }
           })
@@ -83,10 +83,10 @@ ioSock.on('io', function (data) {
               console.error('[TIMO-PLAYER] Error with Data-Service: ' + JSON.stringify(err))
               ioSock.emit('io', {title: 'setled', body: '#FF0000'})
             } else {
-              players[nowPlaying.source].stop()
+              players[nowPlaying.type].stop()
               nowPlaying = body
               console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
-              players[body.source].play(body.subtype, body.link)
+              players[body.type].play(body.subtype, body.link)
               ioSock.emit('io', {title: 'setled', body: '#00FF00'})
             }
           })
@@ -107,12 +107,12 @@ app.get('/now', function (req, res) {
   res.json(nowPlaying)
 })
 app.put('/togglePlay', function (req, res) {
-  players[nowPlaying.source].togglePlay()
+  players[nowPlaying.type].togglePlay()
   ioSock.emit('io', {title: 'setled', body: '#FF6600'})
   res.status(200).end()
 })
 app.put('/stop', function (req, res) {
-  players[nowPlaying.source].stop()
+  players[nowPlaying.type].stop()
   ioSock.emit('io', {title: 'setled', body: '#FF0000'})
   res.status(200).end()
 })
@@ -127,7 +127,7 @@ app.put('/voldown', function (req, res) {
 app.post('/playthis', function (req, res) {
   if (req.body !== null || typeof req.body !== 'undefined') {
     nowPlaying = req.body
-    players[req.body.source].play(req.body.link)
+    players[req.body.type].play(req.body.subtype, req.body.link)
     ioSock.emit('io', {title: 'setled', body: '#00FF00'})
   } else {
     res.status(400).end()
