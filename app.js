@@ -18,7 +18,7 @@ var app = express()
 var server = require('http').createServer(app)
 
 // Players
-var Local = require('./libs/local.js')
+var MP3 = require('./libs/mp3.js')
 var OMXPlayer = require('node-omxplayer')
 var TTS = require('./libs/tts.js')
 var Speaky = require('speaky')
@@ -40,7 +40,7 @@ console.log('[TIMO-PLAYER] TIMO-Playerservice running on ' + config.port)
 var dataClient = request.createClient(config.dataservice)
 
 var players = {
-  local: new Local(OMXPlayer),
+  mp3: new MP3(OMXPlayer),
   tts: new TTS(Speaky, Speaker)
 }
 
@@ -64,45 +64,20 @@ ioSock.on('io', function (data) {
         players[nowPlaying.source].pause()
       } else {
         players[nowPlaying.source].stop()
-        if (data.body.startsWith('http')) {
-          if (data.body.includes('|')) {
-            var parts = data.body.split('|')
-            request.createClient(parts[0]).get('', function (err, res, body) {
-              if (err) {
-                console.error('[TIMO-PLAYER] Error with Remote-Web-Service: ' + JSON.stringify(err))
-                ioSock.emit('io', {title: 'setled', body: '#FF0000'})
-              } else {
-                players[nowPlaying.source].stop()
-                var src = {}
-                for (let index = 0; index < body.length; index++) {
-                  const element = body[index]
-                  if (element.id === parts[1]) {
-                    src = element
-                    break
-                  }
-                }
-                nowPlaying = src
-                console.log('[TIMO-PLAYER] From Remote-Web-Service: ' + JSON.stringify(nowPlaying))
-                players[body.source].play(nowPlaying.link)
-                ioSock.emit('io', {title: 'setled', body: '#00FF00'})
-              }
-            })
-          // 0=json, 1=id
-          } else {
-            request.createClient(data.body).get('', function (err, res, body) {
-              if (err) {
-                console.error('[TIMO-PLAYER] Error with Remote-Web-Service: ' + JSON.stringify(err))
-                ioSock.emit('io', {title: 'setled', body: '#FF0000'})
-              } else {
-                players[nowPlaying.source].stop()
-                nowPlaying = body
-                console.log('[TIMO-PLAYER] From Remote-Web-Service: ' + JSON.stringify(nowPlaying))
-                players[body.source].play(body.link)
-                ioSock.emit('io', {title: 'setled', body: '#00FF00'})
-              }
-            })
-          }
-        } else {
+        if (data.body.startsWith('http')) { // Online Database
+          request.createClient(data.body).get('', function (err, res, body) {
+            if (err) {
+              console.error('[TIMO-PLAYER] Error with Remote-Web-Service: ' + JSON.stringify(err))
+              ioSock.emit('io', {title: 'setled', body: '#FF0000'})
+            } else {
+              players[nowPlaying.source].stop()
+              nowPlaying = body
+              console.log('[TIMO-PLAYER] From Remote-Web-Service: ' + JSON.stringify(nowPlaying))
+              players[body.source].play(body.subtype, body.link)
+              ioSock.emit('io', {title: 'setled', body: '#00FF00'})
+            }
+          })
+        } else { // Local Database
           dataClient.get(data.body, function (err, res, body) {
             if (err) {
               console.error('[TIMO-PLAYER] Error with Data-Service: ' + JSON.stringify(err))
@@ -111,7 +86,7 @@ ioSock.on('io', function (data) {
               players[nowPlaying.source].stop()
               nowPlaying = body
               console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
-              players[body.source].play(body.link)
+              players[body.source].play(body.subtype, body.link)
               ioSock.emit('io', {title: 'setled', body: '#00FF00'})
             }
           })

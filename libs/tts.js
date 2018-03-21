@@ -8,7 +8,7 @@ module.exports = class TTS {
       sampleRate: 44100     // 44,100 Hz sample rate
     })
   }
-  play (file) {
+  play (subtype, file) {
     this.speaky.speak(file).pipe(this.speaker)
   }
   pause () {
