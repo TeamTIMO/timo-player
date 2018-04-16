@@ -57,48 +57,44 @@ ioSock.on('error', function (error) {
   console.log('[TIMO-PLAYER] Error with IO-Service: ' + error)
 })
 ioSock.on('io', function (data) {
-  switch (data.title) {
-    case 'id':
-      console.log('[TIMO-PLAYER] Got ID from IO-Service: ' + data.body)
-      if (data.body === '' || data.body === nowPlaying.id) {
-        players[nowPlaying.type].pause()
-      } else {
-        players[nowPlaying.type].stop()
-        if (data.body.startsWith('http')) { // Online Database
-          request.createClient(data.body).get('', function (err, res, body) {
-            if (err) {
-              console.error('[TIMO-PLAYER] Error with Remote-Web-Service: ' + JSON.stringify(err))
-              ioSock.emit('io', {title: 'setled', body: '#FF0000'})
-            } else {
-              players[nowPlaying.type].stop()
-              nowPlaying = body
-              console.log('[TIMO-PLAYER] From Remote-Web-Service: ' + JSON.stringify(nowPlaying))
-              players[body.type].play(body.subtype, body.link)
-              ioSock.emit('io', {title: 'setled', body: '#00FF00'})
-            }
-          })
-        } else { // Local Database
-          dataClient.get(data.body, function (err, res, body) {
-            if (err) {
-              console.error('[TIMO-PLAYER] Error with Data-Service: ' + JSON.stringify(err))
-              ioSock.emit('io', {title: 'setled', body: '#FF0000'})
-            } else {
-              players[nowPlaying.type].stop()
-              nowPlaying = body
-              console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
-              players[body.type].play(body.subtype, body.link)
-              ioSock.emit('io', {title: 'setled', body: '#00FF00'})
-            }
-          })
-        }
+  if (data.t1 === 1) {
+    players[nowPlaying.type].prev()
+  } else if (data.t2 === 1) {
+    players[nowPlaying.type].next()
+  } else {
+    console.log('[TIMO-PLAYER] Got ID from IO-Service: ' + JSON.stringify(data.body))
+    if (data.rfiddata === '' || data.rfiddata === nowPlaying.id) {
+      players[nowPlaying.type].pause()
+    } else {
+      players[nowPlaying.type].stop()
+      if (data.rfiddata.startsWith('http')) { // Online Database
+        request.createClient(data.rfiddata).get('', function (err, res, body) {
+          if (err) {
+            console.error('[TIMO-PLAYER] Error with Remote-Web-Service: ' + JSON.stringify(err))
+            ioSock.emit('io', {title: 'setled', body: '#FF0000'})
+          } else {
+            players[nowPlaying.type].stop()
+            nowPlaying = body
+            console.log('[TIMO-PLAYER] From Remote-Web-Service: ' + JSON.stringify(nowPlaying))
+            players[body.type].play(body.subtype, body.link)
+            ioSock.emit('io', {title: 'setled', body: '#00FF00'})
+          }
+        })
+      } else { // Local Database
+        dataClient.get(data.rfiddata, function (err, res, body) {
+          if (err) {
+            console.error('[TIMO-PLAYER] Error with Data-Service: ' + JSON.stringify(err))
+            ioSock.emit('io', {title: 'setled', body: '#FF0000'})
+          } else {
+            players[nowPlaying.type].stop()
+            nowPlaying = body
+            console.log('[TIMO-PLAYER] From Data-Service: ' + JSON.stringify(nowPlaying))
+            players[body.type].play(body.subtype, body.link)
+            ioSock.emit('io', {title: 'setled', body: '#00FF00'})
+          }
+        })
       }
-      break
-    case 'next':
-    // TODO: player.next() (if possible)
-      break
-    case 'prev':
-    // TODO: player.prev() (if possible) (time < 5 ? restart : prev)
-      break
+    }
   }
 })
 

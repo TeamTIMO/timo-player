@@ -20,4 +20,10 @@ module.exports = class TTS {
   stop () {
     
   }
+  next () {
+    return null
+  }
+  prev () {
+    return null
+  }
 }

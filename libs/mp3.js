@@ -20,7 +20,7 @@ module.exports = class Local {
     // TODO: next element, if possible
   }
   prev () {
-    // TODO: last element, if possible
+    // TODO: last element, if possible (time < 5 ? restart : prev)
   }
   pause () {
     this.player.pause()
